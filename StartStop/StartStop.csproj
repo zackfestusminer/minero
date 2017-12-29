@@ -69,6 +69,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="bin\Debug\Deploy.zip" />
+    <None Include="bin\Debug\ResetGPUs.bat" />
+    <None Include="bin\Debug\ResetGPUsElev.bat" />
+    <None Include="bin\Debug\StartStop.exe - Shortcut.lnk" />
+    <None Include="bin\Debug\StartStop.exe.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,6 +86,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\config - Copy.txt" />
+    <Content Include="bin\Debug\config _Orig.txt" />
+    <Content Include="bin\Debug\config.txt" />
+    <Content Include="bin\Debug\config_Footer.txt" />
+    <Content Include="bin\Debug\devcon.exe" />
+    <Content Include="bin\Debug\list.txt" />
+    <Content Include="bin\Debug\Log.txt" />
+    <Content Include="bin\Debug\StartStop.exe" />
+    <Content Include="bin\Debug\StartStop.pdb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
