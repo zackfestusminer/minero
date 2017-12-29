@@ -70,6 +70,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="bin\Debug\Deploy.zip" />
+    <None Include="bin\Debug\OverdriveNTool.ini" />
     <None Include="bin\Debug\ResetGPUs.bat" />
     <None Include="bin\Debug\ResetGPUsElev.bat" />
     <None Include="bin\Debug\StartStop.exe - Shortcut.lnk" />

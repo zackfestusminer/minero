@@ -199,10 +199,48 @@ namespace StartStop
             PauseMiner();
         }
 
+
+        private void BuildResetGPUBatch()
+        {
+            try
+            {
+                System.IO.StreamWriter sw = new System.IO.StreamWriter("ResetGPUs.bat", false);
+                ManagementObjectCollection objVidControls = VideoControllers();
+                int countVidControls = objVidControls.Count;
+                sw.Write("OverdriveNTool.exe");
+                for (int i = 0; i < countVidControls; i++)
+                {
+                    sw.Write(" - r" + i.ToString() + " - p" + i.ToString());
+
+
+                    if (i == 0)
+                        sw.Write("Vega56");
+                    else
+                    {
+                        sw.Write("RX480580");
+                    }
+                }
+                sw.WriteLine("");
+                sw.WriteLine("devcon find *> list.txt");
+                sw.WriteLine("devcon disable *DEV_130F");
+                sw.WriteLine("devcon enable* DEV_130F");
+                sw.Flush();
+                sw.Close();
+                sw.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Log(ex.ToString(), true);
+            }
+
+        }
+
         private void ResetGPUs()
         {
+            BuildResetGPUBatch();
             StartProcess("ResetGPUsElev");
-            System.Threading.Thread.Sleep(10000);
+            int PauseBetweenGPUResetandMining = Convert.ToInt32(AppSetting("PauseBetweenGPUResetandMining")) * 1000;
+            System.Threading.Thread.Sleep(PauseBetweenGPUResetandMining);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -262,24 +300,30 @@ namespace StartStop
             Application.Exit();
         }
 
+        private ManagementObjectCollection VideoControllers()
+        {
+            return new ManagementObjectSearcher("select * from Win32_VideoController").Get();
+
+        }
+
         private void ConfigFile_Builder()
         {
 
 
-           // bool TwoThreadsForNonVegas = Convert.ToBoolean( AppSetting("TwoThreadsForNonVegas"));
-            ManagementObjectSearcher objvide = new ManagementObjectSearcher("select * from Win32_VideoController");
+            // bool TwoThreadsForNonVegas = Convert.ToBoolean( AppSetting("TwoThreadsForNonVegas"));
+            ManagementObjectCollection objVidControls = VideoControllers(); // new ManagementObjectSearcher("select * from Win32_VideoController");
             int gpu_thread_num = 0;
             int index = 0;
             System.Text.StringBuilder sb = new StringBuilder();
             int numGpus = 0;
 
-            int numGpusIndexed = objvide.Get().Count - 1;
+            int numGpusIndexed = objVidControls.Count - 1;
             numGpus++;
 
             sb.AppendLine("\"gpu_threads_conf\" : [");
            
 
-            foreach (ManagementObject obj in objvide.Get())
+            foreach (ManagementObject obj in objVidControls)
             {
 
                 string thread_conf = string.Empty;
