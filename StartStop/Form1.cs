@@ -210,11 +210,11 @@ namespace StartStop
                 sw.Write("OverdriveNTool.exe -consoleonly");
                 System.Text.StringBuilder sbr = new StringBuilder(250);
                 System.Text.StringBuilder sbp= new StringBuilder(250);
-                string vegaAlias = AppSetting("VegaDeviceAlias");
-                string RXAlias = AppSetting("RXDeviceAlias");
-
+                string[] vegaAliases = AppSetting("VegaDeviceAlias").Split(',');
+                string[] RXAliases = AppSetting("RXDeviceAlias").Split(',');
+                string pauseAfterDisabling = AppSetting("DisEnPause");
                 // debug: start
-               // countVidControls = 7;
+                // countVidControls = 7;
                 // debug: end
 
                 for (int i = 0; i < countVidControls; i++)
@@ -240,14 +240,25 @@ namespace StartStop
                 sw.WriteLine(sbr.ToString() + " " + sbp.ToString());
                 sw.WriteLine("");
                 sw.WriteLine("devcon find *> list.txt");
+
                 
-                sw.WriteLine("devcon disable *" + vegaAlias);
-                sw.WriteLine("devcon enable *" + vegaAlias);
+                foreach (string vega in vegaAliases)
+                { 
+                    sw.WriteLine("devcon disable *" + vega);
+                    sw.WriteLine("devcon enable *" + vega);
+                    sw.WriteLine("timeout /t " + pauseAfterDisabling);
+                }
+
 
                 if (Convert.ToBoolean(AppSetting("DisEnRXDevices")))
                 {
-                    sw.WriteLine("devcon disable *" + RXAlias);
-                    sw.WriteLine("devcon enable *" + RXAlias);
+                    foreach (string rx in RXAliases)
+                    {
+                        sw.WriteLine("devcon disable *" + rx);
+                        sw.WriteLine("devcon enable *" + rx);
+                        sw.WriteLine("timeout /t " + pauseAfterDisabling);
+                    }
+                   
                 }
                 sw.Flush();
                 sw.Close();
