@@ -208,22 +208,36 @@ namespace StartStop
                 ManagementObjectCollection objVidControls = VideoControllers();
                 int countVidControls = objVidControls.Count;
                 sw.Write("OverdriveNTool.exe");
+                System.Text.StringBuilder sbr = new StringBuilder(250);
+                System.Text.StringBuilder sbp= new StringBuilder(250);
+                string vegaAlias = AppSetting("VegaDeviceAlias");
+                string RXAlias = AppSetting("RXDeviceAlias");
+
+
                 for (int i = 0; i < countVidControls; i++)
                 {
-                    sw.Write(" - r" + i.ToString() + " - p" + i.ToString());
-
+                    sbr.Append(" -r" + i.ToString());
+                    sbp.Append(" -p" + i.ToString());                    
 
                     if (i == 0)
-                        sw.Write("Vega56");
+                        sbp.Append ("Vega56");
                     else
                     {
-                        sw.Write("RX480580");
+                        sbp.Append("RX480580");
                     }
                 }
+                sw.WriteLine(sbr.ToString() + " " + sbp.ToString());
                 sw.WriteLine("");
                 sw.WriteLine("devcon find *> list.txt");
-                sw.WriteLine("devcon disable *DEV_130F");
-                sw.WriteLine("devcon enable* DEV_130F");
+                
+                sw.WriteLine("devcon disable *" + vegaAlias);
+                sw.WriteLine("devcon enable *" + vegaAlias);
+
+                if (Convert.ToBoolean(AppSetting("DisEnRXDevices")))
+                {
+                    sw.WriteLine("devcon disable *" + RXAlias);
+                    sw.WriteLine("devcon enable *" + RXAlias);
+                }
                 sw.Flush();
                 sw.Close();
                 sw.Dispose();
