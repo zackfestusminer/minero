@@ -222,7 +222,7 @@ namespace StartStop
                 string[] RXAliases = AppSetting("RXDeviceAliases").Split(',');
                 string pauseAfterDisabling = AppSetting("DisEnPause");
                 // debug: start
-                 countVidControls = 7;
+                 // countVidControls = 7;
                 // debug: end
 
                 for (int i = 0; i < countVidControls; i++)
