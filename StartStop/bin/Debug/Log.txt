@@ -8,3 +8,9 @@
 12/28/2017 11:50:13 PM Miner Paused
 12/28/2017 11:50:18 PM Miner ran
 12/29/2017 12:09:03 AM Miner ran
+12/29/2017 2:18:14 PM System.NullReferenceException: Object reference not set to an instance of an object.
+   at StartStop.Form1.AppSetting(String setting) in C:\Everything\StartStop\StartStop\Form1.cs:line 43
+   at StartStop.Form1.BuildResetGPUBatch() in C:\Everything\StartStop\StartStop\Form1.cs:line 213
+12/29/2017 2:18:56 PM System.NullReferenceException: Object reference not set to an instance of an object.
+   at StartStop.Form1.AppSetting(String setting) in C:\Everything\StartStop\StartStop\Form1.cs:line 43
+   at StartStop.Form1.BuildResetGPUBatch() in C:\Everything\StartStop\StartStop\Form1.cs:line 213

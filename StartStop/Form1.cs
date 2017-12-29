@@ -210,30 +210,18 @@ namespace StartStop
                 sw.Write("OverdriveNTool.exe -consoleonly");
                 System.Text.StringBuilder sbr = new StringBuilder(250);
                 System.Text.StringBuilder sbp= new StringBuilder(250);
-                string[] vegaAliases = AppSetting("VegaDeviceAlias").Split(',');
-                string[] RXAliases = AppSetting("RXDeviceAlias").Split(',');
+                string[] vegaAliases = AppSetting("VegaDeviceAliases").Split(',');
+                string[] RXAliases = AppSetting("RXDeviceAliases").Split(',');
                 string pauseAfterDisabling = AppSetting("DisEnPause");
                 // debug: start
-                // countVidControls = 7;
+                 countVidControls = 7;
                 // debug: end
 
                 for (int i = 0; i < countVidControls; i++)
                 {
                     sbr.Append(" -r" + i.ToString());
                     sbp.Append(" -p" + i.ToString());
-                    switch (i)
-                    {
-                        case 0:
-                            sbp.Append("Vega56");
-                            break;
-                        case 2:
-                            sbp.Append("RX480");
-                            break;
-                        default:
-                            sbp.Append("RX580");
-                            break;
-
-                    }
+                    sbp.Append(AppSetting("OD_Device" + i.ToString()));
 
                     
                 }
