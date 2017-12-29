@@ -207,24 +207,35 @@ namespace StartStop
                 System.IO.StreamWriter sw = new System.IO.StreamWriter("ResetGPUs.bat", false);
                 ManagementObjectCollection objVidControls = VideoControllers();
                 int countVidControls = objVidControls.Count;
-                sw.Write("OverdriveNTool.exe");
+                sw.Write("OverdriveNTool.exe -consoleonly");
                 System.Text.StringBuilder sbr = new StringBuilder(250);
                 System.Text.StringBuilder sbp= new StringBuilder(250);
                 string vegaAlias = AppSetting("VegaDeviceAlias");
                 string RXAlias = AppSetting("RXDeviceAlias");
 
+                // debug: start
+               // countVidControls = 7;
+                // debug: end
 
                 for (int i = 0; i < countVidControls; i++)
                 {
                     sbr.Append(" -r" + i.ToString());
-                    sbp.Append(" -p" + i.ToString());                    
-
-                    if (i == 0)
-                        sbp.Append ("Vega56");
-                    else
+                    sbp.Append(" -p" + i.ToString());
+                    switch (i)
                     {
-                        sbp.Append("RX480580");
+                        case 0:
+                            sbp.Append("Vega56");
+                            break;
+                        case 2:
+                            sbp.Append("RX480");
+                            break;
+                        default:
+                            sbp.Append("RX580");
+                            break;
+
                     }
+
+                    
                 }
                 sw.WriteLine(sbr.ToString() + " " + sbp.ToString());
                 sw.WriteLine("");
