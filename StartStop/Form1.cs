@@ -23,7 +23,7 @@ namespace StartStop
         string _processName = string.Empty;
         int _runFor = 20;
         int _pauseFor = 1;
-
+        int _disEnCycle = 0;
         //  0 = no just 1
         //  1 = alternate 1 and 2
         //  2 = 2 always
@@ -78,7 +78,7 @@ namespace StartStop
 
         }
 
-        private void ShutDownWindows()
+        private void RestartWindows()
         {
             var psi = new ProcessStartInfo("shutdown", "/r /f /t 0");
 
@@ -154,14 +154,21 @@ namespace StartStop
                 timer1.Interval = _pauseFor;
                 run = false;
                 Log("Miner Paused", false);
+                _disEnCycle++;
+                if (Convert.ToInt32(AppSetting("DisEnCycle")) == _disEnCycle)
+                {
+                    ResetGPUs();
+                    _disEnCycle = 0;
+                    Log("GPUs Reset", false);
+                }
+                
 
-               
             }
 
             catch (Exception ex)
             {
                 Log(ex.ToString(), true);
-                ShutDownWindows();
+                RestartWindows();
             }
         }
 
@@ -305,7 +312,7 @@ namespace StartStop
             catch (Exception ex)
             {
                 Log(ex.ToString(),true);
-                ShutDownWindows();
+                RestartWindows();
 
             }
         }
