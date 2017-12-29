@@ -95,7 +95,6 @@
     <Content Include="bin\Debug\config_Footer.txt" />
     <Content Include="bin\Debug\devcon.exe" />
     <Content Include="bin\Debug\list.txt" />
-    <Content Include="bin\Debug\Log.txt" />
     <Content Include="bin\Debug\StartStop.exe" />
     <Content Include="bin\Debug\StartStop.pdb" />
   </ItemGroup>

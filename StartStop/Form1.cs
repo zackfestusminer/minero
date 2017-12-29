@@ -207,6 +207,7 @@ namespace StartStop
                 System.IO.StreamWriter sw = new System.IO.StreamWriter("ResetGPUs.bat", false);
                 ManagementObjectCollection objVidControls = VideoControllers();
                 int countVidControls = objVidControls.Count;
+                sw.WriteLine("SET PATH=%PATH%;" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) );
                 sw.Write("OverdriveNTool.exe -consoleonly");
                 System.Text.StringBuilder sbr = new StringBuilder(250);
                 System.Text.StringBuilder sbp= new StringBuilder(250);
