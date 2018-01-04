@@ -149,9 +149,13 @@ namespace StartStop
 
             try
             {
-               // InitVariables();
+                // InitVariables();
                 KillProcess(_processName);
                 timer1.Interval = _pauseFor;
+                if (Convert.ToBoolean(AppSetting("forNH")))
+
+                    run = true;
+                else
                 run = false;
                 Log("Miner Paused", false);
                 _disEnCycle++;
@@ -161,10 +165,10 @@ namespace StartStop
                     _disEnCycle = 0;
                     Log("GPUs Reset", false);
                 }
-                
+
+              
 
             }
-
             catch (Exception ex)
             {
                 Log(ex.ToString(), true);
@@ -278,6 +282,7 @@ namespace StartStop
         {
             try
             {
+
                 if (Process.GetProcessesByName("StartStop").Length > 1)
                 {
                     Log("Attempting to run this app twice. Exiting this instance now.", true);
@@ -285,9 +290,21 @@ namespace StartStop
                 }
                 else
                 {
-
                     ResetGPUs();
-                    StartMiner();
+                    if (Convert.ToBoolean(AppSetting("forNH")))
+                    {
+                        InitVariables();
+                        timer1.Enabled = true;
+                        timer1.Interval = _runFor;
+
+
+                    }
+                    else
+                    {
+
+                        
+                        StartMiner();
+                    }
                 }
             }
             catch (Exception ex)
